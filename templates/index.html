@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Excel Compare — find repeated entries</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    pre.diagnostics { white-space: pre-wrap; background: #f8f9fa; padding: .75rem; border-radius: .25rem; }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h1 class="mb-4">Excel Compare — find repeated entries</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ 'warning' if category=='warning' else 'danger' }}">
+            <pre class="diagnostics">{{ msg }}</pre>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" enctype="multipart/form-data">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card p-3">
+            <h5>Sheet 1</h5>
+            <div class="mb-3">
+              <label class="form-label">Upload Excel file</label>
+              <input class="form-control" type="file" name="file1" accept=".xls,.xlsx" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">OR Public direct URL (OneDrive/SharePoint direct-download)</label>
+              <input class="form-control" type="url" name="url1" placeholder="https://..." />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card p-3">
+            <h5>Sheet 2</h5>
+            <div class="mb-3">
+              <label class="form-label">Upload Excel file</label>
+              <input class="form-control" type="file" name="file2" accept=".xls,.xlsx" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">OR Public direct URL</label>
+              <input class="form-control" type="url" name="url2" placeholder="https://..." />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <p>Columns that will be considered (if present in BOTH files):</p>
+        <ul>
+          {% for c in cols %}
+            <li>{{c}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Compare & Download Results</button>
+    </form>
+
+    <hr class="my-4">
+    <p class="text-muted small">Note: If your SharePoint/OneDrive link requires authentication, download the files and upload them here. Phone numbers are normalized to digits, emails lowered, names whitespace-normalized, registration numbers uppercased.</p>
+  </div>
+</body>
+</html>
